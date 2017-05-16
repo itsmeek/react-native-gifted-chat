@@ -72,7 +72,7 @@ const styles = {
 };
 
 Avatar.defaultProps = {
-  renderAvatarOnTop: false,
+  renderAvatarOnTop: true,
   position: 'left',
   currentMessage: {
     user: null,

@@ -34,7 +34,8 @@ export default class Bubble extends React.Component {
   }
 
   renderMessageText() {
-    if (this.props.currentMessage.text) {
+    //Added so arrays are reserved for serviceEvents
+    if (this.props.currentMessage.text && typeof (this.props.currentMessage.text) === 'string') {
       const {containerStyle, wrapperStyle, ...messageTextProps} = this.props;
       if (this.props.renderMessageText) {
         return this.props.renderMessageText(messageTextProps);
@@ -74,7 +75,8 @@ export default class Bubble extends React.Component {
   }
 
   renderTime() {
-    if (this.props.currentMessage.createdAt) {
+    //Added so arrays are reserved for serviceEvents
+    if (this.props.currentMessage.createdAt && typeof (this.props.currentMessage.text) === 'string') {
       const {containerStyle, wrapperStyle, ...timeProps} = this.props;
       if (this.props.renderTime) {
         return this.props.renderTime(timeProps);
@@ -119,22 +121,24 @@ export default class Bubble extends React.Component {
   render() {
     return (
       <View style={[styles[this.props.position].container, this.props.containerStyle[this.props.position]]}>
-        <View style={[styles[this.props.position].wrapper, this.props.wrapperStyle[this.props.position], this.handleBubbleToNext(), this.handleBubbleToPrevious()]}>
-          <TouchableWithoutFeedback
-            onLongPress={this.onLongPress}
-            accessibilityTraits="text"
-            {...this.props.touchableProps}
-          >
-            <View>
-              {this.renderCustomView()}
-              {this.renderMessageImage()}
-              {this.renderMessageText()}
-              <View style={[styles.bottom, this.props.bottomContainerStyle[this.props.position]]}>
-                {this.renderTime()}
-                {this.renderTicks()}
+        <View style={[styles[this.props.position].wrapper, this.props.wrapperStyle[this.props.position]]}>
+          <View style={[styles[this.props.position].textWrapper, this.props.textWrapperStyle[this.props.position]]}>
+            <TouchableWithoutFeedback
+              onLongPress={this.onLongPress}
+              accessibilityTraits="text"
+              {...this.props.touchableProps}
+            >
+              <View>
+                {this.renderCustomView()}
+                {this.renderMessageImage()}
+                {this.renderMessageText()}
+                <View style={[styles.bottom, this.props.bottomContainerStyle[this.props.position]]}>
+                  {this.renderTicks()}
+                </View>
               </View>
-            </View>
-          </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+          </View>
+          {this.renderTime()}
         </View>
       </View>
     );
@@ -148,11 +152,15 @@ const styles = {
       alignItems: 'flex-start',
     },
     wrapper: {
-      borderRadius: 15,
-      backgroundColor: '#f0f0f0',
+      borderRadius: 10,
+      backgroundColor: 'transparent',
       marginRight: 60,
       minHeight: 20,
       justifyContent: 'flex-end',
+    },
+    textWrapper: {
+      borderRadius: 10,
+      paddingVertical: 10
     },
     containerToNext: {
       borderBottomLeftRadius: 3,
@@ -167,11 +175,15 @@ const styles = {
       alignItems: 'flex-end',
     },
     wrapper: {
-      borderRadius: 15,
-      backgroundColor: '#0084ff',
+      borderRadius: 10,
+      backgroundColor: 'transparent',
       marginLeft: 60,
       minHeight: 20,
       justifyContent: 'flex-end',
+    },
+    textWrapper: {
+      borderRadius: 10,
+      paddingVertical: 10
     },
     containerToNext: {
       borderBottomRightRadius: 3,

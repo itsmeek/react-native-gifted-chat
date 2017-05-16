@@ -34,6 +34,7 @@ export default class Message extends React.Component {
 
   renderBubble() {
     const bubbleProps = this.getInnerComponentProps();
+    console.log(bubbleProps);
     if (this.props.renderBubble) {
       return this.props.renderBubble(bubbleProps);
     }
